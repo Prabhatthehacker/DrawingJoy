@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/app"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/board_bg"
+    android:padding="12dp">
+
+    <!-- Top bar: title + Record / Save / Share -->
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/topActions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/btnRecord"
+            style="@style/TopPillButton"
+            android:background="@drawable/bg_pill_record"
+            android:textColor="@color/record_red"
+            android:text="🔴  Record" />
+
+        <TextView
+            android:id="@+id/btnFullscreen"
+            style="@style/TopPillButton"
+            android:text="⤢  Full Screen" />
+
+        <TextView
+            android:id="@+id/btnSave"
+            style="@style/TopPillButton"
+            android:text="⬇  Save" />
+
+        <TextView
+            android:id="@+id/btnShare"
+            style="@style/TopPillButton"
+            android:layout_marginEnd="0dp"
+            android:text="⤴  Share" />
+    </LinearLayout>
+
+    <!-- Recording indicator, hidden unless recording -->
+    <LinearLayout
+        android:id="@+id/recordingBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_pill_record"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/topActions"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/dot_red" />
+
+        <TextView
+            android:id="@+id/recordingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="00:00"
+            android:textColor="@color/record_red"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Left panel: colors + brush size -->
+    <ScrollView
+        android:id="@+id/leftPanel"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_panel"
+        android:padding="10dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/topActions"
+        app:layout_constraintBottom_toTopOf="@id/toolStrip"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Colors"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:id="@+id/colorGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:useDefaultMargins="false" />
+
+            <TextView
+                android:text="My Colors"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:id="@+id/customColorGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:useDefaultMargins="false" />
+
+            <TextView
+                android:text="Brush Size"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp" />
+
+            <SeekBar
+                android:id="@+id/brushSizeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="20" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="6dp">
+
+                <TextView android:id="@+id/sizeSmall" style="@style/SizePreset" android:text="S" />
+                <TextView android:id="@+id/sizeMedium" style="@style/SizePreset" android:text="M" />
+                <TextView android:id="@+id/sizeLarge" style="@style/SizePreset" android:text="L" />
+                <TextView android:id="@+id/sizeXL" style="@style/SizePreset" android:text="XL" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Drawing canvas -->
+    <FrameLayout
+        android:id="@+id/canvasContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/bg_panel"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/topActions"
+        app:layout_constraintBottom_toTopOf="@id/toolStrip"
+        app:layout_constraintStart_toEndOf="@id/leftPanel"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.mom.privatedrawing.DrawingView
+            android:id="@+id/drawingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/canvas_bg" />
+    </FrameLayout>
+
+    <!-- Bottom tool strip -->
+    <HorizontalScrollView
+        android:id="@+id/toolStrip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_panel"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/toolStripInner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp" />
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
